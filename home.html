@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ORDER SUCCESS</title>
+  <link rel="stylesheet" href="./output.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+
+<body>
+  <div class="p-12 min-h-screen"> 
+    <h1 class="text-3xl font-extrabold">Thank you for your order!</h1>
+    <p class="italic">Your order has been placed successfully 🚀</p>
+    <div class="flex justify-between space-x-4 mt-4">
+      <div class="flex-grow space-y-4">
+        <div class="border-[1px] p-4">
+          <div>
+            <p>Order number:
+              <span class="text-gray-500">V291029</span>
+            </p>
+            <p>Order date:
+              <span id="order-date" class="text-gray-500">Nov 24, 2020</span>
+            </p>
+          </div>
+          <div class="mt-4 grid grid-cols-2 gap-4">
+            <div class="">
+              <h2 class="text-lg font-bold">Shipping Address</h2>
+              <p id="shipping-address">Address here</p>
+            </div>
+            <div>
+              <h2 class="text-lg font-bold">Payment Method</h2>
+              <div class="flex align-baseline items-center">
+                <img src="assets/mastercard.svg" alt="Mastercard logo" class="h-8 inline">
+                <p class="ml-2">Mastercard ending ****</p>
+              </div>
+              <p>Exp: 03/2026</p>
+            </div>
+            <div>
+              <h2 class="text-lg font-bold">Billing Address</h2>
+              <p>Address here</p>
+            </div>
+            <div>
+              <h2 class="text-lg font-bold">Shipping Method</h2>
+              <p>5-6 Business Days</p>
+            </div>
+          </div>
+          <div id="map" class="h-48 mt-2"></div>
+          <script>
+            // Create map 
+            var map = L.map('map').setView([0, 0], 13);
+
+            // Add OSM tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+            // Get current location
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+
+                // Set map center to current location
+                map.panTo(new L.LatLng(lat, lng));
+
+                // Add marker at current location
+                L.marker([lat, lng]).addTo(map);
+              });
+            }
+          </script>
+
+
+        </div>
+        
+        <div class="border p-4">
+          <h1 class="text-xl font-bold">Register</h1>
+          <p>FASTER CHECKOUT EVERY TIME</p>
+          <ol class="">
+            <li>Create account or sign in </li>
+            <li>Save your info</li>
+            <li>Checkout faster and enjoy special offers!</li>
+          </ol>
+        </div>
+      </div>
+      
+      <aside class="w-48 border p-4 h-min">
+        <h1 class="text-xl">Order Summary</h1>
+        <div class="divide-y divide-dashed">
+          <div class="flex justify-between"><h2>Subtotal:</h2><p>£10.00</p></div>
+          <div class="flex justify-between"><h2>Shipping:</h2><p>£10.00</p></div>
+          <div class="flex justify-between"><h2>Discounts:</h2><p>£10.00</p></div>
+          <div class="flex justify-between"><h2>Order Total:</h2><p>£10.00</p></div>
+        </div>
+        <h1 class="mt-4 font-bold text-xl">Items Ordered</h1>
+        <ul>
+          <li>Pizza</li>
+          <li>Paperclips</li>
+          <li>Paperclips</li>
+          <li>Paperclips</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+  
+  <div>
+    <h1>Don't want this to happen? Here's how to quickly lock your screen:</h1>
+    <p>MacOS: Command + Control + Q </p>
+    <p>Windows: idk</p>
+    <p>Linux: you don't know how to lock your screen? </p>
+  </div>
+  
+  <script>
+    // Populate order date
+    const orderDate = document.getElementById('order-date');
+    const today = new Date();
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    orderDate.textContent = today.toLocaleDateString(undefined, options);
+
+    // Get the approximate location of the user
+    // navigator.geolocation.getCurrentPosition((position) => {
+    //   console.log(position.coords.latitude, position.coords.longitude);
+      // Update the shipping address
+      const shippingAddress = document.getElementById('shipping-address');
+      shippingAddress.textContent = `Lat: ${position.coords.latitude}, Long: ${position.coords.longitude}`;
+    });
+  </script>
+
+</body>
+</html>
